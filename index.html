@@ -97,6 +97,13 @@
                         <label for="childrenPerFamily" class="input-label">Children per Descendant Family</label>
                         <input type="number" id="childrenPerFamily" class="form-input bg-white border border-gray-300 rounded-lg w-full p-2.5 text-gray-900 focus:ring-2 focus:ring-trust-navy" value="2" min="1" max="5">
                     </div>
+
+                    <!-- NEW INPUT: Distribution Rate -->
+                     <div class="space-y-3">
+                        <label for="distributionRate" class="input-label">Max Annual Distribution Rate (Net Income Profit)</label>
+                        <!-- Using text input with % for clarity, parsing as number -->
+                        <input type="text" id="distributionRate" class="form-input bg-white border border-gray-300 rounded-lg w-full p-2.5 text-gray-900 focus:ring-2 focus:ring-trust-navy" value="20%" onchange="updateDashboard()">
+                    </div>
                 </div>
 
                 <!-- Category 3: Legacy Plan -->
@@ -113,7 +120,7 @@
                     <p class="font-bold">Assumptions for Calculation:</p>
                     <ul class="list-disc list-inside space-y-1">
                         <li>All new insurance policies are Indexed Universal Life (IUL).</li>
-                        <li>Target Yearly Net Income from Bond/Dividend is $\mathbf{8\%}$ p.a. of AUM.</li>
+                        <li>Target Yearly Net Income from Bond/Dividend is 5% p.a. of AUM.</li>
                     </ul>
                 </div>
             </div>
@@ -128,16 +135,21 @@
         <main class="flex-1 flex flex-col gap-y-6">
              <header class="bg-trust-card rounded-2xl p-6 shadow-xl border border-gray-200">
                 <h1 class="text-3xl font-extrabold text-gray-900 text-center sm:text-left">WM Commission and Fund Projections</h1>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4 text-center">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4 text-center">
                     <!-- Metric 1: Total Beneficiaries -->
                     <div class="bg-gray-50 p-4 rounded-xl border border-gray-200">
                         <div class="text-sm font-semibold text-gray-500">Total Beneficiaries After 100 Years</div>
                         <div class="text-4xl font-extrabold text-trust-green mt-1" id="totalBeneficiaries">...</div>
                     </div>
-                    <!-- Metric 2: Final Trust Fund AUM (New) -->
+                    <!-- Metric 2: Final Trust Fund AUM -->
                     <div class="bg-trust-navy/10 p-4 rounded-xl border border-trust-navy/30">
                         <div class="text-sm font-semibold text-trust-navy">Final Trust Fund AUM (Year 100)</div>
                         <div class="text-4xl font-extrabold text-trust-navy mt-1" id="finalAUMDisplay">...</div>
+                    </div>
+                    <!-- MOVED METRIC: Total Distributed Income -->
+                    <div class="bg-trust-gold/10 p-4 rounded-xl border border-trust-gold/30">
+                        <div class="text-sm font-semibold text-gray-500">Total Income Distributed</div>
+                        <div class="text-4xl font-extrabold text-trust-gold mt-1" id="totalDistribution">...</div>
                     </div>
                 </div>
             </header>
@@ -193,6 +205,8 @@
                         <div class="text-2xl font-bold text-gray-900 mt-1" id="totalClaimBenefit">...</div>
                         <p class="text-xs text-gray-500 mt-1">Boost from Legacy Plan.</p>
                     </div>
+                    
+                    <!-- NOTE: Total Distribution card REMOVED from here. -->
 
                 </div>
             </div>
@@ -224,6 +238,8 @@
         const SA_TO_PREMIUM_RATIO = 10000 / 1000000; // 10k premium per 1M SA
         const PREMIUM_PAYMENT_YEARS = 10;
         const FYC_RATIO = 2000 / 10000; // $2000 commission per $10k premium
+        const NET_GROWTH_RATE = 1.05; // 5% net annual growth
+        const GROSS_INCOME_RATE = 0.08; // 8% gross income rate
 
         document.addEventListener('DOMContentLoaded', () => {
             // Set up initial beneficiaries data structure based on new requirements
@@ -407,6 +423,8 @@
                 marriageAge: parseInt(document.getElementById('marriageAge').value) || 28,
                 childrenPerFamily: parseInt(document.getElementById('childrenPerFamily').value) || 2,
                 sumAssured: parseCurrency(document.getElementById('sumAssured').value) || 1000000,
+                // NEW: Distribution Rate
+                distributionRate: parseCurrency(document.getElementById('distributionRate').value) / 100 || 0.20, 
             };
             // Use the globally maintained `beneficiaries` array as the source of truth for the simulation
             inputs.simBeneficiaries = JSON.parse(JSON.stringify(beneficiaries)).map(b => ({
@@ -437,6 +455,8 @@
             let totalPolicies = 0;
             let totalPremiumCost = 0;
             let totalClaimBenefit = 0;
+            // NEW: Distribution Tracking
+            let totalDistributedIncome = 0;
             
             const MAX_YEARS = 100;
 
@@ -446,19 +466,45 @@
 
             for (let year = 1; year <= MAX_YEARS; year++) {
                 
+                // AUM at the beginning of the year
+                const startingAUM = AUM;
+                
                 // --- 1. Annual Fund & Commission Calculations based on AUM ---
                 
+                // Gross Income from Bond/Dividend (8% of starting AUM)
+                const grossIncome = startingAUM * GROSS_INCOME_RATE;
+                
+                // Management Fee (3% of starting AUM)
+                const managementFee = startingAUM * 0.03;
+                
+                // Net Income Profit (used for distribution)
+                // We assume Net Income Profit = Gross Income - Management Fee
+                const netIncomeProfit = grossIncome - managementFee;
+
                 // 4c. Management Fee Commission (0.5% of AUM annually)
-                const mgmtCommission = AUM * 0.005;
+                const mgmtCommission = startingAUM * 0.005;
                 totalMgmtCommission += mgmtCommission;
 
                 // 4b. Bond/Performance Bonus (0.5% of AUM every 5th year)
                 if (year % 5 === 0) {
-                    const bondCommission = AUM * 0.005;
+                    const bondCommission = startingAUM * 0.005;
                     totalBondCommission += bondCommission;
                 }
                 
-                // --- 2. Population Dynamics & Legacy Events ---
+                // --- 2. Distribution to Beneficiaries ---
+                
+                let annualDistribution = 0;
+                if (netIncomeProfit > 0) {
+                     // Distribution is Max Distribution Rate of Net Income Profit
+                     annualDistribution = netIncomeProfit * inputs.distributionRate;
+                }
+                
+                totalDistributedIncome += annualDistribution;
+                
+                // AUM adjusted for Management Fee and Distribution
+                AUM = startingAUM + (netIncomeProfit - annualDistribution);
+                
+                // --- 3. Population Dynamics & Legacy Events ---
                 
                 // Filter out the dead for the next year
                 currentBeneficiaries = currentBeneficiaries.filter(b => b.isAlive);
@@ -548,7 +594,7 @@
                     }
                 }
                 
-                // --- 3. Trust Fund Value Update (AUM) ---
+                // --- 4. Final Trust Fund Value Update (AUM) ---
                 
                 // 3b. Fund Addition (Claims)
                 AUM += totalClaimReceived;
@@ -558,8 +604,7 @@
                 AUM -= annualPremiumPayment;
                 totalPremiumCost += annualPremiumPayment;
                 
-                // 3a. Fund Growth (Net 5% p.a.)
-                AUM *= 1.05;
+                // AUM growth already applied in step 2 via Net Income Profit calculation: AUM = startingAUM + (netIncomeProfit - annualDistribution);
                 
                 AUM_VALUES.push(Math.max(0, AUM));
             }
@@ -572,6 +617,7 @@
                 totalPolicies,
                 totalPremiumCost,
                 totalClaimBenefit,
+                totalDistributedIncome, // NEW
                 finalBeneficiaryCount: currentBeneficiaries.filter(b => b.isAlive).length
             };
         }
@@ -589,9 +635,10 @@
             // 2. Update Headline & Cards
             const totalCommission = results.totalFYC + results.totalBondCommission + results.totalMgmtCommission;
             
-            // Update the new Final AUM display
+            // Update the key header displays
             const finalAUM = results.AUM_VALUES[results.AUM_VALUES.length - 1];
             document.getElementById('finalAUMDisplay').textContent = formatCurrency(finalAUM, false);
+            document.getElementById('totalDistribution').textContent = formatCurrency(results.totalDistributedIncome, false); // MOVED
 
             document.getElementById('totalBeneficiaries').textContent = results.finalBeneficiaryCount;
             document.getElementById('totalCommission').textContent = formatCurrency(totalCommission, false);
