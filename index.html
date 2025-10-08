@@ -18,13 +18,13 @@
                     },
                     colors: {
                         // Light Theme Palette
-                        'trust-navy': '#1e3a8a',    // Primary Accent (Dark Navy Blue)
-                        'trust-gold': '#f59e0b',    // Secondary Accent (Gold)
-                        'trust-green': '#059669',   // Success/FYC (Dark Green for contrast)
-                        'trust-red': '#dc2626',     // Warning/Cost (Dark Red for contrast)
-                        'trust-bg': '#f9fafb',      // Light Background (gray-50)
-                        'trust-card': '#ffffff',    // White Card Background
-                        'trust-input': '#f3f4f6',   // Light input background (gray-100)
+                        'trust-navy': '#1e3a8a',
+                        'trust-gold': '#f59e0b',
+                        'trust-green': '#059669',
+                        'trust-red': '#dc2626',
+                        'trust-bg': '#f9fafb',
+                        'trust-card': '#ffffff',
+                        'trust-input': '#f3f4f6',
                     }
                 }
             }
@@ -32,18 +32,17 @@
     </script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;400;700;900&display=swap" rel="stylesheet">
     <style>
-        body { 
-            font-family: 'Inter', sans-serif; 
-            background-color: #f9fafb; /* Light Background */
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #f9fafb;
         }
-        /* Custom scrollbar for aesthetics */
         ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #e5e7eb; } /* Light Track */
-        ::-webkit-scrollbar-thumb { background: #1e3a8a; border-radius: 4px; } /* Navy Thumb */
+        ::-webkit-scrollbar-track { background: #e5e7eb; }
+        ::-webkit-scrollbar-thumb { background: #1e3a8a; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #374151; }
         .input-label { color: #1f2937; font-size: 0.875rem; font-weight: 500; margin-bottom: 0.25rem; }
         
-        /* Custom Range Slider Styling */
+        /* Custom slider styling for progress effect */
         .slider::-webkit-slider-thumb {
             appearance: none;
             height: 20px;
@@ -92,7 +91,6 @@
                     
                     <div class="space-y-3">
                         <label for="trustPrincipal" class="input-label">Trust Fund Principal (USD)</label>
-                        <!-- Updated default value to $5,000,000 -->
                         <input type="text" id="trustPrincipal" class="form-input bg-white border border-gray-300 rounded-lg w-full p-2.5 text-gray-900 focus:ring-2 focus:ring-trust-navy" value="$5,000,000" min="1000000" step="100000" onfocus="parseCurrencyInput(this)" onblur="formatCurrencyInput(this)">
                     </div>
 
@@ -103,7 +101,6 @@
 
                     <div class="space-y-3">
                         <label for="initialBeneficiaries" class="input-label">Total Current Beneficiaries (Including Settlor)</label>
-                        <!-- Updated default value to 5 -->
                         <input type="number" id="initialBeneficiaries" class="form-input bg-white border border-gray-300 rounded-lg w-full p-2.5 text-gray-900 focus:ring-2 focus:ring-trust-navy" value="5" min="1" max="10" oninput="renderBeneficiaries()">
                     </div>
 
@@ -113,7 +110,7 @@
                             <input type="range" id="trustPeriod" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider" value="50" min="5" max="100" oninput="updateTrustPeriodDisplay()">
                             <div class="flex justify-between text-xs text-gray-500 mt-1">
                                 <span>5</span>
-                                <span id="trustPeriodValue" class="font-semibold text-trust-navy">5</span>
+                                <span id="trustPeriodValue" class="font-semibold text-trust-navy">50</span>
                                 <span>100</span>
                             </div>
                         </div>
@@ -123,7 +120,6 @@
                 <!-- Dynamic Beneficiaries Data -->
                 <div class="bg-gray-50 p-4 rounded-xl space-y-4 border border-gray-200" id="beneficiariesContainer">
                     <h3 class="font-bold text-xl text-trust-gold border-b border-gray-300 pb-2">Current Beneficiaries Data</h3>
-                    <!-- Beneficiary cards will be rendered here -->
                 </div>
 
                 <!-- Category 2: Generation BluePrint -->
@@ -140,10 +136,8 @@
                         <input type="number" id="childrenPerFamily" class="form-input bg-white border border-gray-300 rounded-lg w-full p-2.5 text-gray-900 focus:ring-2 focus:ring-trust-navy" value="2" min="1" max="5">
                     </div>
 
-                    <!-- NEW INPUT: Distribution Rate -->
-                     <div class="space-y-3">
+                    <div class="space-y-3">
                         <label for="distributionRate" class="input-label">Max Annual Distribution Rate (Net Income Profit)</label>
-                        <!-- Using text input with % for clarity, parsing as number -->
                         <input type="text" id="distributionRate" class="form-input bg-white border border-gray-300 rounded-lg w-full p-2.5 text-gray-900 focus:ring-2 focus:ring-trust-navy" value="20%" onchange="updateDashboard()">
                     </div>
                 </div>
@@ -168,7 +162,7 @@
             </div>
             
             <button id="runSimulationBtn" class="w-full bg-trust-navy hover:bg-indigo-900 text-white font-extrabold py-3 rounded-xl shadow-lg transition-colors" onclick="updateDashboard()">
-                Run Simulation (5 Years)
+                Run Simulation (50 Years)
             </button>
 
         </div>
@@ -180,15 +174,15 @@
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4 text-center">
                     <!-- Metric 1: Total Beneficiaries -->
                     <div class="bg-gray-50 p-4 rounded-xl border border-gray-200">
-                        <div id="totalBeneficiariesTitle" class="text-sm font-semibold text-gray-500">Total Beneficiaries After 100 Years</div>
+                        <div id="totalBeneficiariesTitle" class="text-sm font-semibold text-gray-500">Total Beneficiaries After 50 Years</div>
                         <div class="text-4xl font-extrabold text-trust-green mt-1" id="totalBeneficiaries">...</div>
                     </div>
                     <!-- Metric 2: Final Trust Fund AUM -->
                     <div class="bg-trust-navy/10 p-4 rounded-xl border border-trust-navy/30">
-                        <div id="finalAUMTitle" class="text-sm font-semibold text-trust-navy">Final Trust Fund AUM (Year 100)</div>
+                        <div id="finalAUMTitle" class="text-sm font-semibold text-trust-navy">Final Trust Fund AUM (Year 50)</div>
                         <div class="text-4xl font-extrabold text-trust-navy mt-1" id="finalAUMDisplay">...</div>
                     </div>
-                    <!-- MOVED METRIC: Total Distributed Income -->
+                    <!-- Metric 3: Total Distributed Income -->
                     <div class="bg-trust-gold/10 p-4 rounded-xl border border-trust-gold/30">
                         <div class="text-sm font-semibold text-gray-500">Total Income Distributed</div>
                         <div class="text-4xl font-extrabold text-trust-gold mt-1" id="totalDistribution">...</div>
@@ -202,9 +196,9 @@
                 <div class="h-96"><canvas id="aumChart"></canvas></div>
             </div>
 
-            <!-- Visualization 2: Potential Income for Wealth Manager (Summary Cards) -->
+            <!-- Visualization 2: Potential Income for Wealth Manager -->
             <div class="bg-trust-card rounded-2xl p-6 shadow-xl border border-gray-200">
-                <h2 id="potentialIncomeTitle" class="text-xl font-bold text-gray-900 border-b border-gray-300 pb-3 mb-4">💰 Potential Income for Wealth Manager (100-Year Total)</h2>
+                <h2 id="potentialIncomeTitle" class="text-xl font-bold text-gray-900 border-b border-gray-300 pb-3 mb-4">💰 Potential Income for Wealth Manager (50-Year Total)</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                     
                     <!-- TOTAL INCOME -->
@@ -215,21 +209,21 @@
                     
                     <!-- IUL FYC -->
                     <div class="bg-trust-green/10 border-l-4 border-trust-green p-4 rounded-xl shadow-md">
-                        <div class="text-xs font-semibold text-trust-green">IUL First Year Commission (FYC)</div>
+                        <div class="text-xs font-semibold text-trust-green">Total Insurance First Year Commission (FYC)</div>
                         <div class="text-2xl font-bold text-gray-900 mt-1" id="fycCommission">...</div>
                         <p class="text-xs text-gray-500 mt-1">New Policies Sold: <span id="totalPolicies">0</span></p>
                     </div>
 
                     <!-- BOND BONUS -->
                     <div class="bg-trust-gold/10 border-l-4 border-trust-gold p-4 rounded-xl shadow-md">
-                        <div class="text-xs font-semibold text-trust-gold">Bond/Performance Bonus (<span id="bondCommissionRate">0.15%</span> AUM)</div>
+                        <div class="text-xs font-semibold text-trust-gold">Total Investment Commission(<span id="bondCommissionRate">0.15%</span> AUM)</div>
                         <div class="text-2xl font-bold text-gray-900 mt-1" id="bondCommission">...</div>
                         <p class="text-xs text-gray-500 mt-1">Paid Every 5 Years.</p>
                     </div>
 
                     <!-- MANAGEMENT FEE -->
                     <div class="bg-trust-navy/10 border-l-4 border-trust-navy p-4 rounded-xl shadow-md">
-                        <div class="text-xs font-semibold text-trust-navy">Management Fee Commission (<span id="mgmtCommissionRate">0.15%</span> AUM)</div>
+                        <div class="text-xs font-semibold text-trust-navy">Total Management Fee Commission (<span id="mgmtCommissionRate">0.15%</span> AUM)</div>
                         <div class="text-2xl font-bold text-gray-900 mt-1" id="mgmtCommission">...</div>
                         <p class="text-xs text-gray-500 mt-1">Paid Annually.</p>
                     </div>
@@ -238,7 +232,7 @@
                     <div class="bg-trust-red/10 border-l-4 border-trust-red p-4 rounded-xl shadow-md">
                         <div class="text-xs font-semibold text-trust-red">Total IUL Premiums Paid by Trust</div>
                         <div class="text-2xl font-bold text-gray-900 mt-1" id="totalPremiumCost">...</div>
-                        <p class="text-xs text-gray-500 mt-1">Over 100 Years.</p>
+                        <p class="text-xs text-gray-500 mt-1">Over Selected Period.</p>
                     </div>
                     
                     <!-- TOTAL CLAIMS -->
@@ -247,8 +241,6 @@
                         <div class="text-2xl font-bold text-gray-900 mt-1" id="totalClaimBenefit">...</div>
                         <p class="text-xs text-gray-500 mt-1">Boost from Legacy Plan.</p>
                     </div>
-                    
-                    <!-- NOTE: Total Distribution card REMOVED from here. -->
 
                 </div>
             </div>
@@ -257,39 +249,24 @@
     </div>
 
     <script>
-        // Deterrent: Disable Right-Click (Context Menu)
-        document.addEventListener('contextmenu', (e) => {
-            e.preventDefault();
-            // Optional: You could show a custom message box here instead of just blocking
-        });
-
-        // Deterrent: Disable Keyboard Shortcuts (F12, Ctrl+Shift+I, etc.)
+        document.addEventListener('contextmenu', (e) => e.preventDefault());
         document.addEventListener('keydown', (e) => {
-            // F12 key check
-            if (e.key === 'F12') {
-                e.preventDefault();
-            }
-            // Ctrl+Shift+I (or Cmd+Option+I for Mac, though usually requires more complex key codes)
-            if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'I' || e.key === 'i')) {
+            if (e.key === 'F12' || ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'I' || e.key === 'i'))) {
                 e.preventDefault();
             }
         });
 
         let aumChart;
         let beneficiaries = [];
-        const SA_TO_PREMIUM_RATIO = 10000 / 1000000; // 10k premium per 1M SA
+        const SA_TO_PREMIUM_RATIO = 10000 / 1000000;
         const PREMIUM_PAYMENT_YEARS = 10;
-        const FYC_RATIO = 2000 / 10000; // $2000 commission per $10k premium
-        const NET_GROWTH_RATE = 1.05; // 5% net annual growth
-        const GROSS_INCOME_RATE = 0.08; // 8% gross income rate
-        
-        // **REVISED BOND COMMISSION RATE**
-        const BOND_COMMISSION_RATE = 0.0015; // 0.15% 
-        // **REVISED MANAGEMENT FEE COMMISSION RATE**
-        const MGMT_COMMISSION_RATE = 0.0015; // 0.15% (was 0.005 / 0.5%)
+        const FYC_RATIO = 2000 / 10000;
+        const NET_GROWTH_RATE = 1.05;
+        const GROSS_INCOME_RATE = 0.08;
+        const BOND_COMMISSION_RATE = 0.0015;
+        const MGMT_COMMISSION_RATE = 0.0015;
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Set up initial beneficiaries data structure based on new requirements
             beneficiaries = [
                 { id: Date.now() + 1, name: "Settlor", relation: "Settlor", age: 50 },
                 { id: Date.now() + 2, name: "Partner", relation: "Partner", age: 48 },
@@ -300,25 +277,17 @@
 
             initializeCharts();
             renderBeneficiaries();
-            // Format the currency inputs on initial load
             formatCurrencyInput(document.getElementById('trustPrincipal'));
             formatCurrencyInput(document.getElementById('sumAssured'));
-            // Initialize Trust Period display
             updateTrustPeriodDisplay();
-            // Update the commission rate displays
             document.getElementById('bondCommissionRate').textContent = `${(BOND_COMMISSION_RATE * 100).toFixed(2)}%`;
             document.getElementById('mgmtCommissionRate').textContent = `${(MGMT_COMMISSION_RATE * 100).toFixed(2)}%`;
 
-            // Initial calculation run
-            setTimeout(updateDashboard, 100); 
+            setTimeout(updateDashboard, 100); 
         });
         
-        // --- NEW CURRENCY INPUT HANDLERS ---
-
         function parseCurrency(value) {
-            // Removes currency symbols, commas, and letters, returning a clean number.
             if (typeof value === 'string') {
-                // Ensure only digits, potentially a leading minus sign, and decimal points remain
                 const cleanValue = value.replace(/[^0-9.-]/g, '');
                 return parseFloat(cleanValue) || 0;
             }
@@ -326,39 +295,32 @@
         }
 
         function parseCurrencyInput(input) {
-            // When user focuses on input, show raw number for editing
             const rawValue = parseCurrency(input.value);
             input.value = rawValue.toString();
         }
 
         function formatCurrencyInput(input) {
-            // When user leaves input, format as currency
             const rawValue = parseCurrency(input.value);
             input.value = formatCurrency(rawValue, false);
-            updateDashboard(); // Ensure simulation runs after formatting
+            updateDashboard();
         }
-
-        // --- BENEFICIARIES MANAGEMENT ---
 
         function updateBeneficiary(index, field, value) {
             if (beneficiaries[index]) {
-                // Safely update the value, converting age to integer
                 beneficiaries[index][field] = (field === 'age' ? parseInt(value) : value);
             }
-            updateDashboard(); // Run simulation after any beneficiary change
+            updateDashboard();
         }
 
         function renderBeneficiaries() {
             const container = document.getElementById('beneficiariesContainer');
             const count = parseInt(document.getElementById('initialBeneficiaries').value) || 5;
             
-            // Adjust beneficiaries array to match count
             while (beneficiaries.length < count) {
                 const nextIndex = beneficiaries.length;
                 let defaultAge = 25;
                 let relation = 'Child';
 
-                // Initial default values for the first 5 only (to maintain the HNW family structure)
                 if (nextIndex === 0) { defaultAge = 50; relation = "Settlor"; }
                 else if (nextIndex === 1) { defaultAge = 48; relation = "Partner"; }
                 else if (nextIndex === 2) { defaultAge = 20; relation = "Child"; }
@@ -376,26 +338,22 @@
                 beneficiaries.pop();
             }
 
-            // Sync Settlor's age with the main input
             if (beneficiaries.length > 0) {
                  beneficiaries[0].age = parseInt(document.getElementById('settlorAge').value) || 50;
             }
 
-            // Clear existing content except title
             const title = container.querySelector('h3');
             container.innerHTML = '';
             if (title) container.appendChild(title);
 
-            // Render beneficiary cards
             beneficiaries.forEach((beneficiary, index) => {
                 const card = document.createElement('div');
                 card.className = 'bg-white p-3 rounded-lg border border-gray-300 shadow-sm space-y-2';
 
-                // Ensure Settlor and Partner names are locked for the first two
-                const isFixed = index < 2 && index < count; 
-                const nameInput = `<input type="text" value="${beneficiary.name}" 
-                                   class="w-full text-sm p-1.5 border border-gray-300 rounded ${isFixed ? 'bg-gray-100' : ''} focus:ring-1 focus:ring-trust-navy"
-                                   onchange="updateBeneficiary(${index}, 'name', this.value)" ${isFixed ? 'readonly' : ''}>`;
+                const isFixed = index < 2 && index < count; 
+                const nameInput = `<input type="text" value="${beneficiary.name}" 
+                                       class="w-full text-sm p-1.5 border border-gray-300 rounded ${isFixed ? 'bg-gray-100' : ''} focus:ring-1 focus:ring-trust-navy"
+                                       onchange="updateBeneficiary(${index}, 'name', this.value)" ${isFixed ? 'readonly' : ''}>`;
 
                 card.innerHTML = `
                     <div class="grid grid-cols-2 gap-2">
@@ -406,7 +364,7 @@
                         <div>
                             <label class="text-xs font-medium text-gray-600">Relation</label>
                             <select class="w-full text-sm p-1.5 border border-gray-300 rounded focus:ring-1 focus:ring-trust-navy"
-                                    onchange="updateBeneficiary(${index}, 'relation', this.value)" ${isFixed ? 'disabled' : ''}>
+                                         onchange="updateBeneficiary(${index}, 'relation', this.value)" ${isFixed ? 'disabled' : ''}>
                                 <option value="Settlor" ${beneficiary.relation === 'Settlor' ? 'selected' : ''}>Settlor</option>
                                 <option value="Partner" ${beneficiary.relation === 'Partner' ? 'selected' : ''}>Partner</option>
                                 <option value="Child" ${beneficiary.relation === 'Child' ? 'selected' : ''}>Child</option>
@@ -426,8 +384,6 @@
             updateDashboard();
         }
 
-        // --- TRUST PERIOD SLIDER FUNCTIONS ---
-
         function updateTrustPeriodDisplay() {
             const slider = document.getElementById('trustPeriod');
             const display = document.getElementById('trustPeriodValue');
@@ -435,17 +391,13 @@
             const value = slider.value;
             display.textContent = value;
             
-            // Update button text
             button.textContent = `Run Simulation (${value} Years)`;
             
-            // Update slider progress bar
             const progress = ((value - slider.min) / (slider.max - slider.min)) * 100;
             slider.style.setProperty('--progress', progress + '%');
             
             updateDashboard();
         }
-
-        // --- CHART INITIALIZATION ---
 
         function initializeCharts() {
             const ctx = document.getElementById('aumChart').getContext('2d');
@@ -468,9 +420,7 @@
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: {
-                            display: false
-                        },
+                        legend: { display: false },
                         tooltip: {
                             callbacks: {
                                 label: (context) => `AUM: ${formatCurrency(context.parsed.y, false)}`
@@ -479,16 +429,10 @@
                     },
                     scales: {
                         x: {
-                            title: {
-                                display: true,
-                                text: 'Years'
-                            }
+                            title: { display: true, text: 'Years' }
                         },
                         y: {
-                            title: {
-                                display: true,
-                                text: 'AUM (USD)'
-                            },
+                            title: { display: true, text: 'AUM (USD)' },
                             ticks: {
                                 callback: function(value) {
                                     return formatCurrency(value, true);
@@ -504,11 +448,8 @@
             });
         }
 
-        // --- SIMULATION ENGINE ---
-
         function runSimulation() {
             try {
-                // Parse inputs
                 const inputs = {
                     trustPrincipal: parseCurrency(document.getElementById('trustPrincipal').value),
                     settlorAge: parseInt(document.getElementById('settlorAge').value) || 50,
@@ -519,227 +460,209 @@
                     trustPeriod: parseInt(document.getElementById('trustPeriod').value) || 100
                 };
 
-                // Initialize simulation state
                 let AUM = inputs.trustPrincipal;
                 const AUM_VALUES = [AUM];
                 
-                // Commission tracking
                 let totalFYC = 0;
                 let totalBondCommission = 0;
                 let totalMgmtCommission = 0;
                 let totalPolicies = 0;
                 let totalPremiumCost = 0;
                 let totalClaimBenefit = 0;
-                let totalDistributedIncome = 0;
+                let totalDistributedIncome = 0; // This variable needs updating
 
-                // Fund depletion tracking
                 let fundDepleted = false;
                 let depletionYear = 0;
 
-                // Population tracking
-                let currentBeneficiaries = JSON.parse(JSON.stringify(beneficiaries)).map((b, index) => ({
+                // Track couples to avoid duplicate births
+                let couples = [];
+                let nextCoupleId = 1;
+                
+                // Initialize people with couple tracking
+                let currentPeople = JSON.parse(JSON.stringify(beneficiaries)).map((b, index) => ({
                     ...b,
                     deathAge: 85,
                     isAlive: true,
-                    hasPartner: b.relation === 'Settlor' || b.relation === 'Partner',
-                    // CORRECTED LOGIC: Settlor(0) and Partner(1) are excluded. All others start with a new policy.
+                    coupleId: (index === 0 || index === 1) ? 0 : null,
                     policyYearsRemaining: (index === 0 || index === 1) ? 0 : PREMIUM_PAYMENT_YEARS,
-                    childrenBorn: 0,
-                    // If Settlor or Partner, assume they started married (yearMarried = 0 is start of simulation)
-                    yearMarried: (index === 0 || index === 1) ? 0 : -1,
-                    yearLastBirth: -1,
                 }));
 
-                // CORRECTED: Count initial policies only for children
-                currentBeneficiaries.forEach(b => {
-                    if (b.policyYearsRemaining === PREMIUM_PAYMENT_YEARS) {
+                // Initial couple (Settlor + Partner) - won't have more children
+                if (currentPeople.length >= 2) {
+                    couples.push({
+                        id: 0,
+                        person1Id: currentPeople[0].id,
+                        person2Id: currentPeople[1].id,
+                        marriedYear: 0,
+                        childrenBorn: 0,
+                        lastBirthYear: -1
+                    });
+                } else if (currentPeople.length === 1) {
+                    currentPeople[0].coupleId = 0;
+                    couples.push({ id: 0, person1Id: currentPeople[0].id, person2Id: null, marriedYear: 0, childrenBorn: 0, lastBirthYear: -1 });
+                }
+
+
+                // Count initial policies (exclude Settlor and Partner - assuming they're past the policy period or don't get one)
+                currentPeople.forEach((p, idx) => {
+                    if (p.policyYearsRemaining === PREMIUM_PAYMENT_YEARS) {
                         totalPolicies += 1;
                     }
                 });
 
-                let newBeneficiaryId = 1000;
+                let newPersonId = 1000;
 
-                // Run simulation for the specified Trust Period
                 for (let year = 1; year <= inputs.trustPeriod; year++) {
                     const startingAUM = AUM;
 
-                    // --- FUND DEPLETION CHECK (Simplified check) ---
                     if (fundDepleted) {
-                        AUM_VALUES.push(AUM); 
+                        AUM_VALUES.push(AUM); 
+                        currentPeople = currentPeople.filter(p => p.isAlive);
+                        for (let i = 0; i < currentPeople.length; i++) {
+                            const p = currentPeople[i]; 
+                            p.age += 1;
+                            if (p.age >= p.deathAge) { p.isAlive = false; }
+                        }
                         continue;
                     }
                     
-                    // --- PRE-CALCULATE REQUIRED EXPENSES AND INCOME ---
-
-                    const managementFeeDeduction = startingAUM * 0.03; // 3% fee deduction
+                    const managementFeeDeduction = startingAUM * 0.03;
                     const grossIncome = startingAUM * GROSS_INCOME_RATE;
                     const netIncomeProfit = grossIncome - managementFeeDeduction;
                     
-                    // Calculate potential premium payments for this year
                     let potentialPremiumPayment = 0;
-                    currentBeneficiaries.forEach(b => {
-                        if (b.isAlive && b.policyYearsRemaining > 0) {
+                    currentPeople.forEach(p => {
+                        if (p.isAlive && p.policyYearsRemaining > 0) {
                             potentialPremiumPayment += inputs.sumAssured * SA_TO_PREMIUM_RATIO;
                         }
                     });
 
                     const potentialDistribution = netIncomeProfit * inputs.distributionRate;
-                    const totalRequiredDeductions = potentialPremiumPayment + potentialDistribution;
+                    const mgmtFeeCommission = startingAUM * MGMT_COMMISSION_RATE;
                     
-                    // Total fund available for AUM increase/decrease BEFORE claim payout
-                    const aumChangeBeforeClaims = netIncomeProfit - potentialDistribution - potentialPremiumPayment;
+                    // FIX: Accumulate the distributed income for display
+                    totalDistributedIncome += potentialDistribution; 
+                    
+                    let annualBonusDeduction = 0; 
+                    if (year % 5 === 0) {
+                        annualBonusDeduction = startingAUM * BOND_COMMISSION_RATE; 
+                        totalBondCommission += annualBonusDeduction; 
+                    }
 
 
-                    // --- Check for Fund Depletion ---
+                    // Calculate AUM change considering all expenses
+                    const totalExpenses = potentialDistribution + potentialPremiumPayment + mgmtFeeCommission + annualBonusDeduction;
+
+                    const aumChangeBeforeClaims = netIncomeProfit - totalExpenses; // Used for depletion check
+
                     if (startingAUM + aumChangeBeforeClaims <= 0 && startingAUM > 0) {
                          fundDepleted = true;
                          depletionYear = year;
-                         AUM = 0; // Set AUM to zero
-                    }
-                    
-                    if (fundDepleted && startingAUM > 0) {
-                        // Fund depletion detected this year. Stop all financial transactions.
-                        AUM_VALUES.push(0); 
-                        
-                        // Handle population aging and death only
-                        currentBeneficiaries = currentBeneficiaries.filter(b => b.isAlive);
-                        for (let i = 0; i < currentBeneficiaries.length; i++) {
-                            const b = currentBeneficiaries[i];
-                            b.age += 1;
-                            if (b.age >= b.deathAge) { b.isAlive = false; }
-                        }
-                        
-                        continue;
+                         AUM = 0;
+                         AUM_VALUES.push(0); 
+                         continue;
                     } else if (fundDepleted && startingAUM === 0) {
-                         // Fund was already depleted
-                         AUM_VALUES.push(0); 
+                         AUM_VALUES.push(0); 
                          continue;
                     }
 
-
-                    // --- PROCEED WITH NORMAL OPERATIONS ---
-                    
-                    // --- 1. Commission Calculations ---
-                    
-                    // 1a. Management Fee Commission (0.15% of AUM, paid annually)
-                    const mgmtFeeCommission = startingAUM * MGMT_COMMISSION_RATE; // Using 0.15% constant
+                    // Commission Calculations for WM Income (Annual Management Fee)
                     totalMgmtCommission += mgmtFeeCommission;
                     
-                    // 1b. Bond/Performance Bonus (0.15% of AUM, paid every 5 years)
-                    if (year % 5 === 0) {
-                        const bondBonus = startingAUM * BOND_COMMISSION_RATE;
-                        totalBondCommission += bondBonus;
-                    }
+                    // CORRECT AUM UPDATE: Deducting Net Profit, Distribution, Premiums, WM Management Fee, AND Bond Bonus
+                    AUM = startingAUM + netIncomeProfit - totalExpenses;
                     
-                    // --- 2. Trust Fund Growth & Distribution ---
-                    
-                    // 2d. Annual Distribution (% of Net Income Profit)
-                    const annualDistribution = potentialDistribution;
-                    totalDistributedIncome += annualDistribution;
-                    
-                    // AUM = starting AUM + Net Income Profit - Annual Distribution - Annual Premium
-                    AUM = startingAUM + (netIncomeProfit - annualDistribution) - potentialPremiumPayment;
-                    
-                    // --- 3. Population Dynamics & Legacy Events ---
-                    
-                    // Filter out the dead for the next year
-                    currentBeneficiaries = currentBeneficiaries.filter(b => b.isAlive);
+                    // Population Dynamics
+                    currentPeople = currentPeople.filter(p => p.isAlive);
                     
                     let annualPremiumPayment = 0;
                     let totalClaimReceived = 0;
 
-                    const beneficiariesToProcess = [...currentBeneficiaries]; 
+                    const peopleToProcess = [...currentPeople];
 
-                    for (let i = 0; i < beneficiariesToProcess.length; i++) {
-                        const b = beneficiariesToProcess[i];
+                    for (let i = 0; i < peopleToProcess.length; i++) {
+                        const p = peopleToProcess[i];
                         
-                        // --- A. Aging and Death ---
-                        b.age += 1;
-                        if (b.age >= b.deathAge) {
-                            b.isAlive = false;
+                        // Aging and Death
+                        p.age += 1;
+                        if (p.age >= p.deathAge) {
+                            p.isAlive = false;
                             totalClaimReceived += inputs.sumAssured;
-                            continue; 
+                            continue;
                         }
                         
-                        // --- B. Marriage and Partner Addition ---
-                        if (!b.hasPartner && b.relation !== 'Settlor' && b.age === inputs.marriageAge) {
-                            b.hasPartner = true;
-                            b.yearMarried = year;
-                            
-                            // Add Partner (PolicyYearsRemaining is set to PREMIUM_PAYMENT_YEARS by default in the map below)
-                            const newPartner = {
-                                id: newBeneficiaryId++,
-                                name: `Partner of ${b.name}`,
-                                relation: 'Partner',
+                        // Marriage (exclude Settlor)
+                        if (p.coupleId === null && p.age === inputs.marriageAge && p.name !== 'Settlor') {
+                            const partner = {
+                                id: newPersonId++,
+                                name: `Partner of ${p.name}`,
                                 age: inputs.marriageAge,
                                 deathAge: 85,
                                 isAlive: true,
-                                isPartner: true,
-                                hasPartner: true,
-                                policyYearsRemaining: PREMIUM_PAYMENT_YEARS, // New Policy
-                                childrenBorn: 0,
-                                yearMarried: year,
-                                yearLastBirth: -1,
+                                coupleId: nextCoupleId,
+                                policyYearsRemaining: PREMIUM_PAYMENT_YEARS,
                             };
-                            currentBeneficiaries.push(newPartner);
-                            totalPolicies += 1; // Count new policy for partner
+                            
+                            p.coupleId = nextCoupleId;
+                            
+                            couples.push({
+                                id: nextCoupleId,
+                                person1Id: p.id,
+                                person2Id: partner.id,
+                                marriedYear: year,
+                                childrenBorn: 0,
+                                lastBirthYear: -1
+                            });
+                            
+                            currentPeople.push(partner);
+                            totalPolicies += 1;
+                            nextCoupleId++;
                         }
                         
-                        // --- C. Birth of Children ---
-                        // Only people who married *during simulation* (yearMarried > 0) can have children 
-                        // Settlor/Partner (index 0 and 1) start with yearMarried=0, so this prevents them from having more.
-                        if (b.hasPartner && b.childrenBorn < inputs.childrenPerFamily && b.yearMarried >= 0) { 
-                            const yearsSinceMarried = year - b.yearMarried;
-                            const yearsSinceLastBirth = year - b.yearLastBirth;
-                            
-                            if ((b.childrenBorn === 0 && yearsSinceMarried === 1) || 
-                                (b.childrenBorn > 0 && yearsSinceLastBirth === 2)) {
-                                
-                                b.childrenBorn += 1;
-                                b.yearLastBirth = year;
-                                
-                                // Add Child
-                                currentBeneficiaries.push({
-                                    id: newBeneficiaryId++,
-                                    name: `Child ${b.childrenBorn} of ${b.name}`,
-                                    relation: 'Child',
-                                    age: 0,
-                                    deathAge: 85,
-                                    isAlive: true,
-                                    isPartner: false,
-                                    hasPartner: false,
-                                    policyYearsRemaining: PREMIUM_PAYMENT_YEARS, // New Policy
-                                    childrenBorn: 0,
-                                    yearMarried: -1,
-                                    yearLastBirth: -1,
-                                });
-                                totalPolicies += 1; // Count new policy for child
-                            }
-                        }
-
-                        // --- D. Policy Premium & Commission Tracking ---
-                        if (b.policyYearsRemaining > 0) {
+                        // Policy Premium & Commission Tracking
+                        if (p.policyYearsRemaining > 0) {
                             const annualPremium = inputs.sumAssured * SA_TO_PREMIUM_RATIO;
                             annualPremiumPayment += annualPremium;
                             
-                            // 4a. IUL First Year Commission (FYC)
-                            if (b.policyYearsRemaining === PREMIUM_PAYMENT_YEARS) {
+                            if (p.policyYearsRemaining === PREMIUM_PAYMENT_YEARS) {
                                 const fyc = annualPremium * FYC_RATIO;
                                 totalFYC += fyc;
                             }
-                            b.policyYearsRemaining -= 1;
+                            p.policyYearsRemaining -= 1;
                         }
                     }
                     
-                    // --- 4. AUM Update for Claims/Premiums ---
+                    // Birth of Children (per COUPLE, not per person)
+                    couples.forEach(couple => {
+                        if (couple.childrenBorn < inputs.childrenPerFamily && couple.marriedYear > 0) {
+                            const yearsSinceMarriage = year - couple.marriedYear;
+                            const yearsSinceLastBirth = year - couple.lastBirthYear;
+                            
+                            if ((couple.childrenBorn === 0 && yearsSinceMarriage === 1) ||
+                                (couple.childrenBorn > 0 && yearsSinceLastBirth === 2)) {
+                                
+                                couple.childrenBorn++;
+                                couple.lastBirthYear = year;
+                                
+                                const parent = currentPeople.find(p => p.id === couple.person1Id);
+                                
+                                currentPeople.push({
+                                    id: newPersonId++,
+                                    name: `Child ${couple.childrenBorn} of ${parent ? parent.name : 'Unknown'}`,
+                                    age: 0,
+                                    deathAge: 85,
+                                    isAlive: true,
+                                    coupleId: null,
+                                    policyYearsRemaining: PREMIUM_PAYMENT_YEARS,
+                                });
+                                totalPolicies += 1;
+                            }
+                        }
+                    });
                     
-                    // 3b. Fund Addition (Claims)
+                    // AUM Update for Claims/Premiums
                     AUM += totalClaimReceived;
                     totalClaimBenefit += totalClaimReceived;
-
-                    // 3c. Fund Deduction (Premiums paid to the WM)
-                    // NOTE: The Premium was already deducted in the AUM calculation before the loop (via potentialPremiumPayment)
-                    // We only need to track the cost here, not deduct again.
                     totalPremiumCost += annualPremiumPayment;
                     
                     AUM_VALUES.push(Math.max(0, AUM));
@@ -754,32 +677,40 @@
                     totalPremiumCost,
                     totalClaimBenefit,
                     totalDistributedIncome,
-                    finalBeneficiaryCount: currentBeneficiaries.filter(b => b.isAlive).length,
+                    finalBeneficiaryCount: currentPeople.filter(p => p.isAlive).length,
                     fundDepleted,
                     depletionYear
                 };
 
             } catch (error) {
                 console.error("Simulation Error:", error);
-                alert("The simulation failed. Please check the console for details.");
-                return { AUM_VALUES: [inputs.trustPrincipal || 0], totalFYC: 0, totalBondCommission: 0, totalMgmtCommission: 0, totalPolicies: 0, totalPremiumCost: 0, totalClaimBenefit: 0, totalDistributedIncome: 0, finalBeneficiaryCount: 0, fundDepleted: true, depletionYear: 0 };
+                // Note: The original code used alert(), which is forbidden. Keeping the console error for debugging.
+                const initialPrincipal = parseCurrency(document.getElementById('trustPrincipal')?.value || '$5,000,000');
+                return { 
+                    AUM_VALUES: [initialPrincipal], 
+                    totalFYC: 0, 
+                    totalBondCommission: 0, 
+                    totalMgmtCommission: 0, 
+                    totalPolicies: 0, 
+                    totalPremiumCost: 0, 
+                    totalClaimBenefit: 0, 
+                    totalDistributedIncome: 0, 
+                    finalBeneficiaryCount: beneficiaries.length, 
+                    fundDepleted: true, 
+                    depletionYear: 0 
+                };
             }
         }
 
-        // --- DASHBOARD UPDATE & UTILITY FUNCTIONS ---
-        
         function updateDashboard() {
             const results = runSimulation();
             
-            // 1. Update Chart
             aumChart.data.labels = Array.from({ length: results.AUM_VALUES.length }, (_, i) => i);
             aumChart.data.datasets[0].data = results.AUM_VALUES;
             aumChart.update();
             
-            // 2. Update Headline & Cards
             const totalCommission = results.totalFYC + results.totalBondCommission + results.totalMgmtCommission;
             
-            // Update the key header displays
             const finalAUM = results.AUM_VALUES[results.AUM_VALUES.length - 1];
             document.getElementById('finalAUMDisplay').textContent = formatCurrency(finalAUM, false);
             document.getElementById('totalDistribution').textContent = formatCurrency(results.totalDistributedIncome, false);
@@ -787,14 +718,12 @@
             document.getElementById('totalBeneficiaries').textContent = results.finalBeneficiaryCount;
             document.getElementById('totalCommission').textContent = formatCurrency(totalCommission, false);
             document.getElementById('fycCommission').textContent = formatCurrency(results.totalFYC, false);
-            // Update Bond Commission text/rate
             document.getElementById('bondCommission').textContent = formatCurrency(results.totalBondCommission, false);
             document.getElementById('mgmtCommission').textContent = formatCurrency(results.totalMgmtCommission, false);
             document.getElementById('totalPolicies').textContent = results.totalPolicies;
             document.getElementById('totalPremiumCost').textContent = formatCurrency(results.totalPremiumCost, true);
             document.getElementById('totalClaimBenefit').textContent = formatCurrency(results.totalClaimBenefit, true);
             
-            // 3. Update Fund Depletion Warning and Period Display
             const headerElement = document.querySelector('header h1');
             const chartTitleElement = document.getElementById('chartTitle');
             const totalBeneficiariesTitleElement = document.getElementById('totalBeneficiariesTitle');
@@ -802,7 +731,6 @@
             const potentialIncomeTitleElement = document.getElementById('potentialIncomeTitle');
             const trustPeriod = parseInt(document.getElementById('trustPeriod').value) || 100;
             
-            // Update all dynamic titles
             chartTitleElement.textContent = `📈 Trust Fund AUM Projection (${trustPeriod} Years)`;
             totalBeneficiariesTitleElement.textContent = `Total Beneficiaries After ${trustPeriod} Years`;
             finalAUMTitleElement.textContent = `Final Trust Fund AUM (Year ${trustPeriod})`;
@@ -822,11 +750,10 @@
             }
         }
 
-        // Helper function for currency formatting (based on prior context)
         function formatCurrency(value, compact = false) {
             if (typeof value !== 'number' || isNaN(value)) value = 0;
             const displayValue = value;
-            const symbol = '$';
+            const symbol = '$'; 
 
             if (compact) {
                 if (Math.abs(displayValue) >= 1e12) return `${symbol}${(displayValue / 1e12).toFixed(2)}T`;
